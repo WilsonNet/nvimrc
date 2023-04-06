@@ -28,6 +28,28 @@ lsp.setup_nvim_cmp({
     mapping = cmp_mappings
 })
 
+
+local lsp_config = require('lspconfig')
+
+lsp_config.lua_ls.setup({
+   settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+    --     library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
+
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
