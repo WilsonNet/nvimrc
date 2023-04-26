@@ -8,6 +8,7 @@ lsp.ensure_installed({
     'rust_analyzer',
     'cssls',
     'emmet_ls',
+    'eslint'
 })
 
 
