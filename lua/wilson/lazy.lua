@@ -52,4 +52,4 @@ require("lazy").setup({
 
 
   vim.opt.termguicolors = true
-  vim.cmd.colorscheme('tokyonight')
+  vim.cmd.colorscheme('tokyonight-night')
