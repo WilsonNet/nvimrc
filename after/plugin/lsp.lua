@@ -1,60 +1,35 @@
-local lsp = require("lsp-zero")
+local lsp_zero = require("lsp-zero")
 
-lsp.preset("recommended")
-
-lsp.ensure_installed({
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {
     'tsserver',
     'lua_ls',
-    'rust_analyzer',
     'cssls',
     'emmet_ls',
-    'gopls',
     'svelte',
     'tailwindcss',
     'eslint'
+  },
+  handlers = {
+    lsp_zero.default_setup,
+  },
 })
 
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
+
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
     ["<C-Space>"] = cmp.mapping.complete(),
+  }),
 })
 
-lsp.set_preferences({
-    sign_icons = {}
-})
-
-lsp.setup_nvim_cmp({
-    mapping = cmp_mappings
-})
-
-
-local lsp_config = require('lspconfig')
-
-lsp_config.lua_ls.setup({
-   settings = {
-    Lua = {
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-    --     library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
-
-lsp.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
@@ -73,4 +48,3 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>fe", ':EslintFixAll<CR>', opts)
 end)
 
-lsp.setup()
