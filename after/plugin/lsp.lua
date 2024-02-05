@@ -9,6 +9,8 @@ lsp.ensure_installed({
     'cssls',
     'emmet_ls',
     'gopls',
+    'svelte',
+    'tailwindcss',
     'eslint'
 })
 
