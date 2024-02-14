@@ -14,19 +14,32 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
-  {'folke/tokyonight.nvim'},
-  { "rose-pine/neovim", name = "rose-pine" },
-  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+  { 'folke/tokyonight.nvim' },
+  { "rose-pine/neovim",                name = "rose-pine" },
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   'theprimeagen/harpoon',
   'mbbill/undotree',
   'tpope/vim-fugitive',
   "github/copilot.vim",
   "jose-elias-alvarez/null-ls.nvim",
-  {'williamboman/mason.nvim'},
-  {'williamboman/mason-lspconfig.nvim'},
+  { 'williamboman/mason.nvim' },
+  { 'williamboman/mason-lspconfig.nvim' },
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      -- OR 'ibhagwan/fzf-lua',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup()
+    end
+  },
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -46,19 +59,19 @@ require("lazy").setup({
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      {'hrsh7th/cmp-nvim-lsp'},
+      { 'hrsh7th/cmp-nvim-lsp' },
     }
   },
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
-      {'L3MON4D3/LuaSnip'}
+      { 'L3MON4D3/LuaSnip' }
     },
   },
 })
 
 
 
-  vim.opt.termguicolors = true
-  vim.cmd.colorscheme('tokyonight-night')
+vim.opt.termguicolors = true
+vim.cmd.colorscheme('tokyonight-night')
