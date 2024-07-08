@@ -21,6 +21,12 @@ require("lazy").setup({
   { 'folke/tokyonight.nvim' },
   { "rose-pine/neovim",                name = "rose-pine" },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
   'theprimeagen/harpoon',
   'mbbill/undotree',
   'tpope/vim-fugitive',
