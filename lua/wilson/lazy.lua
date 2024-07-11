@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.5',
+    tag = '0.1.8',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
   { 'folke/tokyonight.nvim' },
@@ -26,6 +26,19 @@ require("lazy").setup({
     opts = {},
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    },
+    opts = {
+      debug = true, -- Enable debugging
+      -- See Configuration section for rest
+    },
+    -- See Commands section for default commands if you want to lazy load on them
   },
   'theprimeagen/harpoon',
   'mbbill/undotree',
