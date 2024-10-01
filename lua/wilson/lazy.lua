@@ -18,6 +18,12 @@ require("lazy").setup({
     tag = '0.1.8',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
+  {
+    'numToStr/Comment.nvim',
+    opts = {
+      -- add any options here
+    }
+  },
   { 'folke/tokyonight.nvim' },
   { "rose-pine/neovim",                name = "rose-pine" },
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
@@ -34,6 +40,7 @@ require("lazy").setup({
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
       debug = true, -- Enable debugging
       -- See Configuration section for rest
