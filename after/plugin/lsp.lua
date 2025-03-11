@@ -9,7 +9,9 @@ require('mason-lspconfig').setup({
     'pyright',
     'tailwindcss',
     'eslint',
-    'jdtls'
+    'jdtls',
+    'typos_lsp',
+    'vtsls'
   },
   handlers = {
     function(server_name)
