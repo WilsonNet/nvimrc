@@ -1,6 +1,6 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -51,7 +51,7 @@ require("lazy").setup({
   'mbbill/undotree',
   'tpope/vim-fugitive',
   "github/copilot.vim",
-  "jose-elias-alvarez/null-ls.nvim",
+  "nvimtools/none-ls.nvim",
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
   {

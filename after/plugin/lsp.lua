@@ -3,13 +3,13 @@ local lsp_zero = require("lsp-zero")
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {
-    'vtsls',
     'lua_ls',
     'cssls',
     'emmet_ls',
     'pyright',
     'tailwindcss',
-    'eslint'
+    'eslint',
+    'jdtls'
   },
   handlers = {
     function(server_name)
