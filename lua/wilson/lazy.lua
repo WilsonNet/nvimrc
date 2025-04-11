@@ -25,7 +25,7 @@ require("lazy").setup({
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.8',
-    dependencies = { 'nvim-lua/plenary.nvim' }
+    dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-ui-select.nvim' },
   },
   {
     'numToStr/Comment.nvim',
@@ -46,12 +46,13 @@ require("lazy").setup({
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "github/copilot.vim" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
-      debug = true, -- Enable debugging
+		debug = true, -- Enable debugging
+		model = "claude-3.7-sonnet",
       -- See Configuration section for rest
     },
     -- See Commands section for default commands if you want to lazy load on them
@@ -59,7 +60,6 @@ require("lazy").setup({
   'theprimeagen/harpoon',
   'mbbill/undotree',
   'tpope/vim-fugitive',
-  "github/copilot.vim",
   "nvimtools/none-ls.nvim",
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },

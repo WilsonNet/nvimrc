@@ -25,7 +25,7 @@ local bundles = {
 }
 
 -- Needed for running/debugging unit tests
-vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.local/share/nvim/mason/share/java-test/*.jar", 1), "\n"))
+vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.local/share/nvim/mason/share/java-test/*.jar", true), "\n"))
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -79,10 +79,6 @@ local config = {
           --   name = "JavaSE-11",
           --   path = "/usr/lib/jvm/java-11-openjdk-amd64",
           -- },
-          {
-            name = "JavaSE-17",
-            path = "~/.sdkman/candidates/java/17.0.14-tem",
-          },
           -- {
           --   name = "JavaSE-19",
           --   path = "/usr/lib/jvm/java-19-openjdk-amd64",
@@ -158,7 +154,7 @@ local config = {
 }
 
 -- Needed for debugging
-config["on_attach"] = function(client, bufnr)
+config["on_attach"] = function(_, _)
   jdtls.setup_dap({ hotcodereplace = "auto" })
   require("jdtls.dap").setup_dap_main_class_configs()
 end
