@@ -63,8 +63,6 @@ require("lazy").setup({
   "nvimtools/none-ls.nvim",
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
-  { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-  { 'mfussenegger/nvim-jdtls', ft = 'java'},
   {
     'pwntester/octo.nvim',
     dependencies = {

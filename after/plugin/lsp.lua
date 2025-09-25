@@ -1,12 +1,6 @@
 local lsp_zero = require("lsp-zero")
 
 require('mason').setup({})
-require('mason-tool-installer').setup({
-	ensure_installed = {
-		'java-debug-adapter',
-		'java-test',
-	},
-})
 require('mason-lspconfig').setup({
 	ensure_installed = {
 		'lua_ls',
@@ -20,19 +14,7 @@ require('mason-lspconfig').setup({
 		'vtsls',
 		'cucumber_language_server'
 	},
-	handlers = {
-		function(server_name)
-			if server_name ~= 'jdtls' then
-				require('lspconfig')[server_name].setup({})
-			end
-		end,
-		jdtls = lsp_zero.noop,
-	},
 })
-
-vim.api.nvim_command('MasonToolsInstall')
-
-
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
