@@ -37,6 +37,31 @@ keymap('v', '<space>G', function()
 	builtin.live_grep({ default_text = text })
 end, opts)
 
+vim.keymap.set({"n", "i"}, "<Leader>cf", function()
+  require("telescope.builtin").find_files({
+    attach_mappings = function(_, map)
+      map("i", "<CR>", function(prompt_bufnr)
+        local entry = require("telescope.actions.state").get_selected_entry()
+        if entry and entry.path then
+          local rel_path = vim.fn.fnamemodify(entry.path, ":.")
+          require("telescope.actions").close(prompt_bufnr)
+          vim.api.nvim_put({rel_path}, 'c', true, true)
+        end
+      end)
+      map("n", "<CR>", function(prompt_bufnr)
+        local entry = require("telescope.actions.state").get_selected_entry()
+        if entry and entry.path then
+          local rel_path = vim.fn.fnamemodify(entry.path, ":.")
+          require("telescope.actions").close(prompt_bufnr)
+          vim.api.nvim_put({rel_path}, 'c', true, true)
+        end
+      end)
+      return true
+    end,
+  })
+end, { desc = "Telescope: Insert relative file path" })
+
+
 
 require("telescope").setup {
   extensions = {
