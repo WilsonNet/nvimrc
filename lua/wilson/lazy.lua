@@ -35,7 +35,7 @@ require("lazy").setup({
 	require("wilson.lazy.none_ls"),
 	require("wilson.lazy.mason"),
 	require("wilson.lazy.mason_lspconfig"),
-	require("wilson.lazy.octo"),
+	require("wilson.lazy.dadbod"),
 	require("wilson.lazy.trouble"),
 	require("wilson.lazy.lsp_zero"),
 	require("wilson.lazy.lspconfig"),

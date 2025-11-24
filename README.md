@@ -9,8 +9,9 @@ A modern, feature-rich Neovim configuration focused on productivity and extensib
 - **Syntax Highlighting**: [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for advanced parsing
 - **LSP Support**: Built-in LSP with [lsp-zero](https://github.com/VonHeikemen/lsp-zero.nvim) and [Mason](https://github.com/williamboman/mason.nvim)
 - **Debugging**: [DAP](https://github.com/mfussenegger/nvim-dap) integration with Python support
-- **Git Integration**: [Fugitive](https://github.com/tpope/vim-fugitive) and [Octo](https://github.com/pwntester/octo.nvim)
-- **File Explorer**: [Oil](https://github.com/stevearc/oil.nvim) for filesystem editing
+- **Git Integration**: [Fugitive](https://github.com/tpope/vim-fugitive)
+	- **Database Management**: [vim-dadbod](https://github.com/tpope/vim-dadbod) with UI and completion
+	- **File Explorer**: [Oil](https://github.com/stevearc/oil.nvim) for filesystem editing
 - **AI Assistance**: [CopilotChat](https://github.com/CopilotC-Nvim/CopilotChat.nvim) and [OpenCode](https://github.com/NickvanDyke/opencode.nvim)
 - **Themes**: Support for [Tokyo Night](https://github.com/folke/tokyonight.nvim) and [Rose Pine](https://github.com/rose-pine/neovim)
 
