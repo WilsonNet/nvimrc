@@ -6,7 +6,8 @@ return {
       {
         path = '~/notes',
         syntax = 'markdown',
-        ext = '.md'
+        ext = '.md',
+        diary_ext = '.md'
       }
     }
     -- Map Ctrl+Space to toggle checkbox
