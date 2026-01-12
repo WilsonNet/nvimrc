@@ -51,6 +51,38 @@ end
 
 dap_virtual_text.setup()
 
--- Python DAP setup (no mason, just python)
+-- Python DAP setup for pipenv
 local dap_python = require('dap-python')
-dap_python.setup('python') -- Uses system python, or specify venv path
+
+-- Automatically find and set the python interpreter from pipenv
+local python_path = 'python'
+if vim.fn.filereadable('Pipfile') == 1 then
+  local venv = vim.fn.trim(vim.fn.system('pipenv --venv'))
+  if vim.fn.isdirectory(venv) == 1 then
+    python_path = venv .. '/bin/python'
+  end
+end
+dap_python.setup(python_path)
+
+-- Add launch configurations for Python, including FastAPI
+dap.configurations.python = {
+    {
+        type = 'python',
+        request = 'launch',
+        name = 'FastAPI (ump-bm/api)',
+        module = 'uvicorn',
+        args = { 'src.app:app', '--host', '0.0.0.0', '--port', '8000', '--reload' },
+        cwd = '${workspaceFolder}',
+        env = {
+            PYTHONPATH = '${workspaceFolder}/src',
+            PLATFORM_MODULE_KEY = 'debug_secret_key',  -- Set a default for debugging
+        },
+    },
+    {
+        type = 'python',
+        request = 'launch',
+        name = 'Launch file',
+        program = '${file}',
+        cwd = '${workspaceFolder}',
+    },
+}

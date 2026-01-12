@@ -2,7 +2,7 @@ return {
 	'kristijanhusak/vim-dadbod-ui',
 	dependencies = {
 		{ 'tpope/vim-dadbod', lazy = true },
-		{ 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' } },
+		{ 'kristijanhusak/vim-dadbod-completion', dependencies = { 'hrsh7th/nvim-cmp' }, ft = { 'sql', 'mysql', 'plsql' } },
 	},
 	cmd = {
 		'DBUI',

@@ -1,5 +1,19 @@
 local lsp_zero = require("lsp-zero")
 
+-- Load project-specific settings
+local function load_project_settings()
+	local settings_path = vim.fn.getcwd() .. '/settings.lua'
+	if vim.fn.filereadable(settings_path) == 1 then
+		local ok, settings = pcall(dofile, settings_path)
+		if ok then
+			return settings
+		end
+	end
+	return {}
+end
+
+local project_settings = load_project_settings()
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
 	ensure_installed = {
@@ -16,10 +30,24 @@ require('mason-lspconfig').setup({
 	},
 })
 
+-- Configure pyright with project-specific python path
+lsp_zero.configure('pyright', {
+	settings = {
+		python = {
+			pythonPath = project_settings.python_path
+		}
+	}
+})
+
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
+	sources = {
+		{ name = 'vim-dadbod-completion' },
+		{ name = 'nvim_lsp' },
+		{ name = 'luasnip' },
+	},
 	mapping = cmp.mapping.preset.insert({
 		['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
 		['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
@@ -46,3 +74,5 @@ lsp_zero.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format({ timeout_ms = 5000 }) end, opts)
 	vim.keymap.set("n", "<leader>fe", ':EslintFixAll<CR>', opts)
 end)
+
+lsp_zero.setup()
