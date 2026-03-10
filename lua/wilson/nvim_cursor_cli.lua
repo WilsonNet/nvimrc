@@ -46,14 +46,12 @@ end
 
 --- Send current location to Cursor via CLI: opens/jumps to file:line in Cursor (reuse window).
 --- Uses absolute path so Cursor can resolve the file from any cwd.
---- Cursor CLI has no way to inject text into the Composer; this uses `cursor -r -g path:line`.
 function M.send_to_cursor()
 	local loc = get_location(":p")
 	if not loc then
 		vim.notify("No file path (unsaved buffer)", vim.log.levels.WARN)
 		return
 	end
-	-- cursor -g accepts file:line[:character]; use start of range for visual
 	local goto_spec = loc:match("^([^:]+:%d+)") or loc
 	local job_id = vim.fn.jobstart({ "cursor", "-r", "-g", goto_spec }, {
 		detach = true,
@@ -65,11 +63,80 @@ function M.send_to_cursor()
 	vim.notify(("Sent to Cursor: %s"):format(goto_spec), vim.log.levels.INFO)
 end
 
+--- Send @path:line (or range) to Cursor agent via tmux (same session only).
+function M.send_to_cursor_agent()
+	M.send_to_cursor_agent_tmux()
+end
+
+--- Find a tmux pane running cursor/agent in the current session and send @path:line there.
+--- Only considers panes in the same tmux session (so each session can have its own Cursor CLI).
+--- Set g:nvim_cursor_cli_tmux_target (e.g. "mysession:0.0") to force a pane when auto-detect fails.
+function M.send_to_cursor_agent_tmux()
+	if not vim.env.TMUX or vim.env.TMUX == "" then
+		vim.notify("Not inside tmux. CursorSend over tmux only works when Neovim is run in a tmux pane.", vim.log.levels.WARN)
+		return
+	end
+	local loc = get_location(":p")
+	if not loc then
+		vim.notify("No file path (unsaved buffer)", vim.log.levels.WARN)
+		return
+	end
+	local ref = "@" .. loc .. " "
+	local target = vim.g.nvim_cursor_cli_tmux_target
+	if not target or target == "" then
+		local session = vim.trim(vim.fn.system("tmux display-message -p '#{session_name}'"))
+		if not session or session == "" or vim.v.shell_error ~= 0 then
+			vim.notify("Could not get current tmux session.", vim.log.levels.WARN)
+			return
+		end
+		-- List only panes in the current session (same-session exclusive)
+		local out = vim.fn.system(string.format(
+			'tmux list-panes -t %s -F "#{session_name}:#{window_index}.#{pane_index} #{pane_current_command} #{window_name}"',
+			vim.fn.shellescape(session)
+		))
+		if vim.v.shell_error ~= 0 or not out then
+			vim.notify("tmux list-panes failed for session " .. session, vim.log.levels.WARN)
+			return
+		end
+		for line in vim.gsplit(out, "\n", { plain = true }) do
+			if line == "" then goto continue end
+			local pane_target = line:match("^([%w:.-]+)")
+			local rest = line:sub(#(pane_target or "") + 2) or ""
+			if rest:lower():match("cursor") or rest:lower():match("agent") then
+				target = pane_target
+				break
+			end
+			::continue::
+		end
+		-- Cursor agent often shows as "node"; fallback to first window of same session
+		if not target or target == "" then
+			target = session .. ":0.0"
+		end
+	end
+	if not target or target == "" then
+		vim.notify(
+			"No tmux pane with 'cursor' or 'agent' in this session. Set g:nvim_cursor_cli_tmux_target (e.g. session:0.0).",
+			vim.log.levels.WARN
+		)
+		return
+	end
+	-- -l = literal (no special key parsing)
+	local job_id = vim.fn.jobstart({ "tmux", "send-keys", "-l", "-t", target, ref }, { detach = true })
+	if job_id <= 0 then
+		vim.notify("tmux send-keys failed for target " .. target, vim.log.levels.ERROR)
+		return
+	end
+	vim.notify(("Sent %s to tmux %s"):format(ref:gsub("%s+$", ""), target), vim.log.levels.INFO)
+end
+
 function M.setup()
 	vim.keymap.set("n", "<leader>cy", M.copy_location, { desc = "Copy file:line (or selection range) to clipboard" })
 	vim.keymap.set("v", "<leader>cy", M.copy_location, { desc = "Copy file:line range of selection to clipboard" })
 	vim.keymap.set("n", "<leader>co", M.send_to_cursor, { desc = "Open current location in Cursor (goto)" })
 	vim.keymap.set("v", "<leader>co", M.send_to_cursor, { desc = "Open selection start in Cursor (goto)" })
+	vim.keymap.set("n", "<leader>ca", M.send_to_cursor_agent, { desc = "Send @path:line to Cursor agent (term or tmux)" })
+	vim.keymap.set("v", "<leader>ca", M.send_to_cursor_agent, { desc = "Send @path:range to Cursor agent (term or tmux)" })
+	vim.api.nvim_create_user_command("CursorSend", M.send_to_cursor_agent, { desc = "Send @path:line to Cursor agent terminal" })
 end
 
 M.setup()
