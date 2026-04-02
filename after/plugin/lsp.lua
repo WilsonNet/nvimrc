@@ -22,10 +22,9 @@ require('mason-lspconfig').setup({
 		'pyright',
 		'tailwindcss',
 		'eslint',
-		'jdtls',
 		'typos_lsp',
 		'vtsls',
-		'cucumber_language_server'
+		'rust_analyzer'
 	},
 })
 
@@ -49,6 +48,31 @@ vim.lsp.config('lua_ls', {
 	}
 })
 
+vim.lsp.config('rust_analyzer', {
+	settings = {
+		['rust-analyzer'] = {
+			cargo = {
+				allFeatures = true,
+			},
+			check = {
+				command = "clippy",
+			},
+			inlayHints = {
+				bindingModeHints = {
+					enable = true,
+				},
+				closureReturnTypeHints = {
+					enable = true,
+				},
+				lifetimeElisionHints = {
+					enable = true,
+					useParameterNames = true,
+				},
+			},
+		}
+	}
+})
+
 -- Enable language servers
 vim.lsp.enable({
 	'lua_ls',
@@ -58,11 +82,9 @@ vim.lsp.enable({
 	'tailwindcss',
 	'eslint',
 	'typos_lsp',
-	'vtsls'
+	'vtsls',
+	'rust_analyzer'
 })
-
--- Note: jdtls and cucumber_language_server need special handling
--- You can enable them manually when needed
 
 -- CMP setup
 local cmp = require('cmp')
