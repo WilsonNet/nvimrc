@@ -47,6 +47,7 @@ require("lazy").setup({
 	require("wilson.lazy.dap_virtual_text"),
 	require("wilson.lazy.opencode"),
 	require("wilson.lazy.vimwiki"),
+	require("wilson.lazy.kotlin"),
 })
 
 
