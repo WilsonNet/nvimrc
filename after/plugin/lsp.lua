@@ -24,7 +24,9 @@ require('mason-lspconfig').setup({
 		'eslint',
 		'typos_lsp',
 		'vtsls',
+		'cucumber_language_server',
 		'rust_analyzer'
+		-- Note: kotlin_lsp is managed by kotlin.nvim plugin to avoid conflicts
 	},
 })
 
@@ -84,6 +86,7 @@ vim.lsp.enable({
 	'typos_lsp',
 	'vtsls',
 	'rust_analyzer'
+	-- Note: kotlin_lsp is managed by kotlin.nvim plugin to avoid conflicts
 })
 
 -- CMP setup
