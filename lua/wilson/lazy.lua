@@ -37,7 +37,6 @@ require("lazy").setup({
 	require("wilson.lazy.mason_lspconfig"),
 	require("wilson.lazy.dadbod"),
 	require("wilson.lazy.trouble"),
-	
 	require("wilson.lazy.lspconfig"),
 	require("wilson.lazy.cmp"),
 	require("wilson.lazy.nio"),
@@ -46,8 +45,7 @@ require("lazy").setup({
 	require("wilson.lazy.dap_python"),
 	require("wilson.lazy.dap_virtual_text"),
 	require("wilson.lazy.opencode"),
-	require("wilson.lazy.vimwiki"),
-	require("wilson.lazy.kotlin"),
+	require("wilson.lazy.vimwiki")
 })
 
 
