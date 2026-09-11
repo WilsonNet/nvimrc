@@ -38,6 +38,10 @@ vim.lsp.config('pyright', {
 })
 
 -- Configure other language servers if needed
+vim.lsp.config('qmlls', {
+	cmd = { 'qmlls6' },
+})
+
 vim.lsp.config('lua_ls', {
 	settings = {
 		Lua = {
@@ -83,7 +87,8 @@ vim.lsp.enable({
 	'eslint',
 	'typos_lsp',
 	'vtsls',
-	'rust_analyzer'
+	'rust_analyzer',
+	'qmlls'
 })
 
 -- CMP setup
