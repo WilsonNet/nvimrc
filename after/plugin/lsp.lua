@@ -40,6 +40,7 @@ vim.lsp.config('pyright', {
 -- Configure other language servers if needed
 vim.lsp.config('qmlls', {
 	cmd = { 'qmlls6' },
+	root_markers = { '.qmlls.ini', 'shell.qml', '.git' },
 })
 
 vim.lsp.config('lua_ls', {
